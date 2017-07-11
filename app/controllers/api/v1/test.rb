@@ -5,7 +5,7 @@ module API
 
       resource :test do
         desc "Return 1"
-        get "", root: :graduates do
+        get "", root: :test do
           1
         end
       end
