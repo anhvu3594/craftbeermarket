@@ -1,4 +1,4 @@
-class CreateApiKeys < ActiveRecord::Migration[5.1]
+class CreateTokens < ActiveRecord::Migration[5.1]
   def change
     create_table :tokens do |t|
       t.string :access_token, null: false
