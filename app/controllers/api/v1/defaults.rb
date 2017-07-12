@@ -33,6 +33,10 @@ module API
               false
             end
           end
+
+          # def is_admin?
+          #   @current_user.role == 1 ? true : false
+          # end
         end
 
         rescue_from ActiveRecord::RecordNotFound do |e|

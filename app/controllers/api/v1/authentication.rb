@@ -35,7 +35,7 @@ module API
           else
             error!('Unauthorized.', 401)
           end
-        end
+        end    
       end
     end
   end

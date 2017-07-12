@@ -11,12 +11,9 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   before_save { self.email = email.downcase }
-  # def update_reset_password_token!
-  #   update_column(:reset_password_token, SecureRandom.hex)
-  # end
-  #
-  # def update_confirmed_token!
-  #   update_column(:confirmed_token, SecureRandom.hex)
-  # end
+
+  def is_admin?
+    role == 1 ? true : false
+  end
 
 end
