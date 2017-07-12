@@ -64,3 +64,5 @@ gem 'grape-swagger'
 gem 'grape-swagger-rails'
 
 gem 'bcrypt'
+
+# gem 'protected_attributes'

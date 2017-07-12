@@ -8,8 +8,7 @@ module API
         version "v1", using: :path
         default_format :json
         format :json
-        formatter :json,
-          Grape::Formatter::ActiveModelSerializers
+        formatter :json, Grape::Formatter::ActiveModelSerializers
 
         helpers do
           # def permitted_params
@@ -34,9 +33,10 @@ module API
             end
           end
 
-          # def is_admin?
-          #   @current_user.role == 1 ? true : false
-          # end
+          def authenticate_admin!
+            authenticate!
+            error!('You are not admin.', 401) unless @current_user.is_admin?
+          end
         end
 
         rescue_from ActiveRecord::RecordNotFound do |e|
