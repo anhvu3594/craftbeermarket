@@ -10,7 +10,7 @@ module API
           end
         end
 
-        resource :beer do
+        resource :admin_beer do
           before do
             authenticate_admin!
           end

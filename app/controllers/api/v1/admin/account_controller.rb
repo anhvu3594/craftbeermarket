@@ -4,7 +4,7 @@ module API
       class AccountController < Grape::API
         include API::V1::Defaults
 
-        resource :account do
+        resource :admin_account do
           before do
             authenticate_admin!
           end

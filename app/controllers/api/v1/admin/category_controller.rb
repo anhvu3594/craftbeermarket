@@ -4,7 +4,7 @@ module API
       class CategoryController < Grape::API
         include API::V1::Defaults
 
-        resource :category do
+        resource :admin_category do
           before do
             authenticate_admin!
           end
