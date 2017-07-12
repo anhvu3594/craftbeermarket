@@ -16,10 +16,10 @@ module API
               requires :name, type: String, desc: 'Name of new account'
               requires :email, type: String, desc: 'Email of new account'
               requires :password, type: String, desc: 'Password of new account'
-            end            
+            end
           end
           post :new_admin do
-            new_admin = User.create!(name: params[:name], email: params[:email], password: params[:password])
+            new_admin = User.create!(name: params[:account][:name], email: params[:account][:email], password: params[:account][:password])
             if new_admin
               new_admin.role = 1
               new_admin.save!

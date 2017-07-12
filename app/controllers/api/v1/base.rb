@@ -7,6 +7,7 @@ module API
       mount API::V1::AuthenticationController
       mount API::V1::Admin::AccountController
       mount API::V1::Admin::CategoryController
+      mount API::V1::Admin::BeerController
     end
   end
 end
