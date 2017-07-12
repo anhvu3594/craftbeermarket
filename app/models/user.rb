@@ -12,7 +12,7 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   before_save { self.email = email.downcase }
-
+  after_create { self.create_passport! }
   def is_admin?
     role == 1 ? true : false
   end
