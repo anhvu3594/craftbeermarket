@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170712025541) do
+ActiveRecord::Schema.define(version: 20170712042209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "beers", force: :cascade do |t|
+    t.bigint "category_id"
+    t.string "manufacturer", default: "none"
+    t.string "name", default: "none"
+    t.string "country", default: "none"
+    t.decimal "price", precision: 8, scale: 2
+    t.string "description", default: "none"
+    t.boolean "is_archived", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_beers_on_category_id"
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
