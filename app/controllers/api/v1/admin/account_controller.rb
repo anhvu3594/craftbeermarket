@@ -1,10 +1,10 @@
 module API
   module V1
     module Admin
-      class UserAccount < Grape::API
+      class AccountController < Grape::API
         include API::V1::Defaults
 
-        resource :user do
+        resource :account do
           before do
             authenticate!
             error!('You are not admin.', 401) unless @current_user.is_admin?

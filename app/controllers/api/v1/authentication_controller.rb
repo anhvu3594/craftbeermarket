@@ -1,6 +1,6 @@
 module API
   module V1
-    class Authentication < Grape::API
+    class AuthenticationController < Grape::API
       include API::V1::Defaults
 
       resource :auth do
@@ -35,7 +35,7 @@ module API
           else
             error!('Unauthorized.', 401)
           end
-        end    
+        end
       end
     end
   end
