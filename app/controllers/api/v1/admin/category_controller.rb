@@ -25,12 +25,17 @@ module API
             end
           end
           post :create do
-            category = Category.create!(name: params[:category][:name])
-            if category
-              { status: 200, data: category}
-            else
-              category.error
-            end
+            Category.create!(name: params[:category][:name])
+          end
+
+          desc 'Delete a category'
+          params do
+            requires :token, type: String, desc: 'Token'
+            requires :id, type: Integer, desc: 'Category Id'
+          end
+          delete ':id' do
+            category = Category.find(params[:id])
+            category.beers.first ? error!('This category still has beers', 404) : category.destroy!
           end
         end
       end
