@@ -4,16 +4,28 @@ module API
       class BeerController < Grape::API
         include API::V1::Defaults
         resource :customer_beer do
+
+          helpers do
+            def passport
+              @current_user.passport.beers
+            end
+          end
+
           before do
             authenticate!
           end
 
-          desc 'Return all beers'
+          desc 'Return all customer_beers'
           params do
             requires :token, type: String, desc: 'Token'
           end
           get '' do
-            Beer.all
+            passport_beer_ids = passport.pluck(:id)
+            beers = Beer.where.not(id: passport_beer_ids)
+            {
+              passport: collection_serializer.new(passport, each_serializer: BeerSerializer),
+              available_beers: collection_serializer.new(beers, each_serializer: BeerSerializer)
+            }
           end
 
           desc 'Consume a beer'
@@ -23,7 +35,9 @@ module API
           end
           post :consume do
             beer = Beer.find(params[:beer_id])
-            @current_user.passport.beers << beer
+            # check if beer is consumed before or not
+            passport << beer unless passport.exists?(beer.id)
+            passport
           end
         end
       end

@@ -37,6 +37,10 @@ module API
             authenticate!
             error!('You are not admin.', 401) unless @current_user.is_admin?
           end
+
+          def collection_serializer
+            ActiveModel::Serializer::CollectionSerializer
+          end
         end
 
         rescue_from ActiveRecord::RecordNotFound do |e|
