@@ -3,6 +3,7 @@ module API
     module Customer
       class BeerController < Grape::API
         include API::V1::Defaults
+
         resource :customer_beer do
 
           helpers do
@@ -15,16 +16,16 @@ module API
             authenticate!
           end
 
-          desc 'Return all customer_beers'
+          desc 'Return all customer beers'
           params do
             requires :token, type: String, desc: 'Token'
           end
           get '' do
             passport_beer_ids = passport.pluck(:id)
-            beers = Beer.where.not(id: passport_beer_ids)
+            available_beers = Beer.available.where.not(id: passport_beer_ids)
             {
               passport: collection_serializer.new(passport, each_serializer: BeerSerializer),
-              available_beers: collection_serializer.new(beers, each_serializer: BeerSerializer)
+              available_beers: collection_serializer.new(available_beers, each_serializer: BeerSerializer)
             }
           end
 

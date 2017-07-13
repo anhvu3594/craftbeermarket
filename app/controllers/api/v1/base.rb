@@ -11,6 +11,9 @@ module API
 
       # customer
       mount API::V1::Customer::BeerController
+
+      # guest
+      mount API::V1::Guest::BeerController
     end
   end
 end
