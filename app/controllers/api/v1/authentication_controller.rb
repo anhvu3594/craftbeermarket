@@ -12,11 +12,7 @@ module API
         end
         post :sign_up do
           user = User.create!(name: params[:name], email: params[:email], password: params[:password])
-          if user
-            { status: 200, data: UserSerializer.new(user)}
-          else
-            user.error
-          end
+          user
         end
 
         desc 'Creates and returns access_token if valid login'
@@ -30,8 +26,7 @@ module API
             # create token for user
             token = Token.create!(user_id: user.id)
             # return token
-            { status: 200,
-            data: { token: token.access_token, name: user.name, email: user.email, role: user.role } }
+            { token: token.access_token, name: user.name, email: user.email, role: user.role }
           else
             error!('Unauthorized.', 401)
           end
