@@ -65,4 +65,7 @@ gem 'grape-swagger-rails'
 
 gem 'bcrypt'
 
+gem 'activeadmin'
+
+gem 'country_select'
 # gem 'protected_attributes'
