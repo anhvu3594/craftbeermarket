@@ -10,7 +10,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   # edit password to password_digest for test in admin_active
-  validates :password_digest, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }
 
   before_save { self.email = email.downcase }
   after_create { self.create_passport! }
