@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let (:user) { FactoryGirl.build(:user) }
 
+  it { expect(user).to have_one(:passport) }
+
+  it { expect(user).to have_many(:tokens) }
+
   it 'should be valid with a name, email, and password' do
     expect(user).to be_valid
   end
@@ -49,10 +53,6 @@ RSpec.describe User, type: :model do
   it { expect(FactoryGirl.build(:user, password: "12345")).to validate_length_of(:password).is_at_least(6) }
 
   it { expect(user).to have_secure_password }
-
-  it { expect(user).to have_one(:passport) }
-
-  it { expect(user).to have_many(:tokens) }
 
   context 'when has role 1' do
     it { expect(FactoryGirl.build(:user, :admin)).to be_admin }
