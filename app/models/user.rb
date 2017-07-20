@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  validates :email, presence:   true, length: { maximum: 255 },
+  validates :email, presence:   true,
                     format:     { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   before_save { self.email = email.downcase }
   after_create { self.create_passport! }
-  def is_admin?
+  def admin?
     role == 1 ? true : false
   end
 

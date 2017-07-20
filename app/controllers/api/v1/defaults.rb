@@ -35,7 +35,7 @@ module API
 
           def authenticate_admin!
             authenticate!
-            error!('You are not admin.', 401) unless @current_user.is_admin?
+            error!('You are not admin.', 401) unless @current_user.admin?
           end
 
           def collection_serializer
