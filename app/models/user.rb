@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   before_save { self.email = email.downcase }
   after_create { self.create_passport! }
+  
   def admin?
     role == 1 ? true : false
   end
