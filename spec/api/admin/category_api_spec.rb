@@ -15,7 +15,7 @@ RSpec.describe "AdminCategoryApis", type: :request do
       expect {
         post "/api/v1/admin_category/create", params: {
           token: token,
-          category: {name: "hello"}
+          category: { name: "hello" }
         }
       }.to change(Category, :count).by(1)
 
@@ -23,14 +23,14 @@ RSpec.describe "AdminCategoryApis", type: :request do
     end
 
     it "delete category" do
+      category = FactoryGirl.create(:category)
       expect {
-        post "/api/v1/admin_category/create", params: {
-          token: token,
-          category: {name: "hello"}
+        delete "/api/v1/admin_category/#{category.id}", params: {
+          token: token
         }
-      }.to change(Category, :count).by(1)
+      }.to change(Category, :count).by(-1)
 
-      expect(response).to have_http_status(201)
+      expect(response).to have_http_status(200)
     end
   end
 

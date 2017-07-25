@@ -11,9 +11,9 @@ module API
         formatter :json, Grape::Formatter::ActiveModelSerializers
 
         helpers do
-          # def permitted_params
-          #   @permitted_params ||= declared(params, include_missing: false)
-          # end
+          def permitted_params
+            @permitted_params ||= declared(params, include_missing: false)
+          end
 
           def logger
             Rails.logger

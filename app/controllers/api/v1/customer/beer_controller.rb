@@ -16,7 +16,10 @@ module API
             authenticate!
           end
 
-          desc 'Return all customer beers'
+          desc 'Return all customer beers', entity: API::Entities::Beer, http_codes: [
+            { code: 200, model: API::Entities::CustomerBeer },
+            { code: 401, message: 'Unauthorized. Invalid or expired token.' }
+          ]
           params do
             requires :token, type: String, desc: 'Token'
           end
@@ -29,13 +32,17 @@ module API
             }
           end
 
-          desc 'Consume a beer'
+          desc 'Consume a beer', entity: API::Entities::Beer, is_array: true, http_codes: [
+            { code: 201, model: API::Entities::BeerResponse },
+            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+            { code: 404, message: "Couldn't find Beer with 'id'=" }
+          ]
           params do
             requires :token, type: String, desc: 'Token'
             requires :beer_id, type: Integer, desc: 'Consumed beer id'
           end
           post :consume do
-            beer = Beer.find(params[:beer_id])
+            beer = Beer.find(permitted_params[:beer_id])
             # check if beer is consumed before or not
             passport << beer unless passport.exists?(beer.id)
             passport

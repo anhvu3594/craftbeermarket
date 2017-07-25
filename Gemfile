@@ -70,6 +70,12 @@ gem 'grape-swagger'
 
 gem 'grape-swagger-rails'
 
+gem 'grape-entity'
+
+gem 'grape-swagger-entity'
+
+gem 'hashie-forbidden_attributes'
+
 gem 'bcrypt'
 
 gem 'activeadmin'

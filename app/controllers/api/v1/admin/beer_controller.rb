@@ -6,7 +6,7 @@ module API
 
         helpers do
           def beer
-            Beer.find(params[:id])
+            Beer.find(permitted_params[:id])
           end
         end
 
@@ -15,7 +15,9 @@ module API
             authenticate_admin!
           end
 
-          desc 'Return all beers'
+          desc 'Return all beers', entity: API::Entities::Beer, is_array: true, http_codes: [
+            { code: 200, model: API::Entities::BeerResponse }
+          ]
           params do
             requires :token, type: String, desc: 'Token'
           end
@@ -23,23 +25,32 @@ module API
             Beer.all
           end
 
-          desc 'Create a beer'
+          desc 'Create a beer', entity: API::Entities::Beer, http_codes: [
+            { code: 201, model: API::Entities::BeerResponse },
+            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+            { code: 422, message: 'Validation failed' }
+          ]
           params do
-            requires :token, type: String, desc: 'Token'
-            requires :beer, type: Hash, desc: 'Beer' do
-              requires :category_id, type: Integer, desc: 'Category Id'
-              requires :manufacturer, type: String, desc: 'Manufacturer'
-              requires :name, type: String, desc: 'Name'
-              requires :country, type: String, desc: 'Country'
-              requires :price, type: BigDecimal, desc: 'Price'
-              requires :description, type: String, desc: 'Description'
-            end
+            requires :token, type: String, desc: 'Token', documentation: {
+              param_type: 'query'
+            }
+            # requires :beer, type: Hash, desc: 'Beer' do
+            #   requires :category_id, type: Integer, desc: 'Category Id'
+            #   requires :manufacturer, type: String, desc: 'Manufacturer'
+            #   requires :name, type: String, desc: 'Name'
+            #   requires :country, type: String, desc: 'Country'
+            #   requires :price, type: BigDecimal, desc: 'Price'
+            #   requires :description, type: String, desc: 'Description'
+            # end
+            requires :beer, type: API::Entities::BeerRequest
           end
           post :create do
-            Beer.create!(params[:beer])
+            Beer.create!(permitted_params[:beer])
           end
 
-          desc 'Show a beer'
+          desc 'Show a beer', entity: API::Entities::Beer, http_codes: [
+            { code: 200, model: API::Entities::BeerResponse }
+          ]
           params do
             requires :token, type: String, desc: 'Token'
             requires :id, type: Integer, desc: 'Beer Id'
@@ -48,24 +59,37 @@ module API
             beer
           end
 
-          desc 'Edit a beer'
+          desc 'Edit a beer', entity: API::Entities::Beer, http_codes: [
+            { code: 200, model: API::Entities::BeerResponse },
+            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+            { code: 422, message: 'Validation failed' },
+            { code: 404, message: "Couldn't find Beer with 'id'=" }
+          ]
           params do
-            requires :token, type: String, desc: 'Token'
+            requires :token, type: String, desc: 'Token', documentation: {
+              param_type: 'query'
+            }
             requires :id, type: Integer, desc: 'Beer Id'
-            requires :beer, type: Hash, desc: 'Beer' do
-              requires :category_id, type: Integer, desc: 'Category Id'
-              requires :manufacturer, type: String, desc: 'Manufacturer'
-              requires :name, type: String, desc: 'Name'
-              requires :country, type: String, desc: 'Country'
-              requires :price, type: BigDecimal, desc: 'Price'
-              requires :description, type: String, desc: 'Description'
-            end
+            # requires :beer, type: Hash, desc: 'Beer' do
+            #   requires :category_id, type: Integer, desc: 'Category Id'
+            #   requires :manufacturer, type: String, desc: 'Manufacturer'
+            #   requires :name, type: String, desc: 'Name'
+            #   requires :country, type: String, desc: 'Country'
+            #   requires :price, type: BigDecimal, desc: 'Price'
+            #   requires :description, type: String, desc: 'Description'
+            # end
+            requires :beer, type: API::Entities::BeerRequest
           end
           put 'edit/:id' do
-            beer if beer.update!(params[:beer])
+            beer if beer.update!(permitted_params[:beer])
           end
 
-          desc 'Archive a beer'
+          desc 'Archive a beer', http_codes: [
+            { code: 200, message: "Sucess" },
+            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+            { code: 422, message: 'Validation failed' },
+            { code: 404, message: "Couldn't find Beer with 'id'=" }
+          ]
           params do
             requires :token, type: String, desc: 'Token'
             requires :id, type: Integer, desc: 'Beer Id'
@@ -74,7 +98,12 @@ module API
             beer.update!(is_archived: true)
           end
 
-          desc 'Unarchive a beer'
+          desc 'Unarchive a beer', http_codes: [
+            { code: 200, message: "Success" },
+            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+            { code: 422, message: 'Validation failed' },
+            { code: 404, message: "Couldn't find Beer with 'id'=" }
+          ]
           params do
             requires :token, type: String, desc: 'Token'
             requires :id, type: Integer, desc: 'Beer Id'
@@ -83,14 +112,14 @@ module API
             beer.update!(is_archived: false)
           end
 
-          desc 'Delete a beer'
-          params do
-            requires :token, type: String, desc: 'Token'
-            requires :id, type: Integer, desc: 'Beer Id'
-          end
-          delete 'delete/:id' do
-            beer.destroy!
-          end
+          # desc 'Delete a beer'
+          # permitted_params do
+          #   requires :token, type: String, desc: 'Token'
+          #   requires :id, type: Integer, desc: 'Beer Id'
+          # end
+          # delete 'delete/:id' do
+          #   beer.destroy!
+          # end
         end
       end
     end
