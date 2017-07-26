@@ -1,5 +1,5 @@
 class SwaggerController < ApplicationController
   def show
-    render file: "./dist/index.html"
+    render file: "./swagger/index.html"
   end
 end
