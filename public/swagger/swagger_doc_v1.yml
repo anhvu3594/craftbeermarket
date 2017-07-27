@@ -22,6 +22,7 @@ tags:
   description: "Operations about beer used by Guest"
 schemes:
 - "http"
+- "https"
 paths:
   /auth/sign_up:
     post:
