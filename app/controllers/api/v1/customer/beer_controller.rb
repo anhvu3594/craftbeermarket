@@ -38,10 +38,10 @@ module API
             { code: 404, message: "Couldn't find Beer with 'id'=" }
           ]
           params do
-            requires :token, type: String, desc: 'Token'
+            requires :token, type: String, desc: 'Token', documentation: { param_type: "query" }
             requires :beer_id, type: Integer, desc: 'Consumed beer id'
           end
-          post :consume do
+          post 'consume/:beer_id' do
             beer = Beer.find(permitted_params[:beer_id])
             # check if beer is consumed before or not
             passport << beer unless passport.exists?(beer.id)

@@ -9,13 +9,15 @@ module API
           { code: 422, message: 'Validation failed' }
         ]
         params do
-          # requires :name, type: String, desc: 'Name'
-          # requires :email, type: String, desc: 'Email address'
-          # requires :password, type: String, desc: 'Password'
-          requires :user, type: API::Entities::UserRequest
+          requires :account, type: Hash, desc: "New user" do
+            requires :name, type: String, desc: 'Name'
+            requires :email, type: String, desc: 'Email address'
+            requires :password, type: String, desc: 'Password'
+          end
+          # requires :user, type: API::Entities::UserRequest
         end
         post :sign_up do
-          User.create!(permitted_params[:user])
+          User.create!(permitted_params[:account])
         end
 
         desc 'Creates and returns access_token if valid login', entity: API::Entities::User, http_codes: [
@@ -23,8 +25,8 @@ module API
           { code: 404, message: 'Wrong email or password' }
         ]
           params do
-              requires :email, type: String, desc: 'email address'
-              requires :password, type: String, desc: 'Password'
+            requires :email, type: String, desc: 'email address'
+            requires :password, type: String, desc: 'Password'
           end
         post :sign_in do
           user = User.find_by(email: permitted_params[:email].downcase)

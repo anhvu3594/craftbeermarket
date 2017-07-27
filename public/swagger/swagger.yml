@@ -23,13 +23,92 @@ tags:
 schemes:
 - "http"
 paths:
+  /auth/sign_up:
+    post:
+      tags:
+      - "authentication"
+      summary: "Create new user"
+      description: "Create new user"
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "User object"
+        required: true
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        201:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/UserWithToken"
+        402:
+          description: "Validation failed"
+  /auth/sign_in:
+    post:
+      tags:
+      - "authentication"
+      summary: "Sign in"
+      description: "Sign in"
+      operationId: "signIn"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "user"
+        in: "body"
+        description: "User's email and password"
+        required: true
+        schema:
+          $ref: "#/definitions/UserSignIn"
+      responses:
+        201:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/UserWithToken"
+        404:
+          description: "Wrong email or password"
+
+  /admin_account/new_admin:
+    post:
+      tags:
+      - "admin_account"
+      summary: "Create new admin account"
+      description: "Create new admin account"
+      operationId: "adminCreateNewAdminAccount"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "Admin token"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        description: "Account object"
+        required: true
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        201:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/User"
+        401:
+          description: "Unauthorized"
+
   /admin_beer:
     get:
       tags:
       - "admin_beer"
       summary: "Return all beers"
       description: "Return all beers"
-      operationId: "adminGetBeer"
+      operationId: "adminGetBeers"
       produces:
       - "application/json"
       parameters:
@@ -82,9 +161,9 @@ paths:
     post:
       tags:
       - "admin_beer"
-      summary: "Create new beer"
-      description: "Create new beer"
-      operationId: "adminCreateBeer"
+      summary: "Create a beer"
+      description: "Create a beer"
+      operationId: "adminCreateABeer"
       produces:
       - "application/json"
       parameters:
@@ -93,7 +172,7 @@ paths:
         description: "Admin token"
         required: true
         type: "string"
-      - name: "beer"
+      - name: "body"
         in: "body"
         description: "Beer object"
         required: true
@@ -104,8 +183,318 @@ paths:
           description: "successful operation"
           schema:
             type: "object"
-            $ref: "#/definitions/Beer"      
+            $ref: "#/definitions/Beer"
+        401:
+          description: "Unauthorized"
+        402:
+          description: "Validation failed"
+  /admin_beer/edit/{id}:
+    put:
+      tags:
+      - "admin_beer"
+      summary: "Edit a beer"
+      description: "Edit a beer"
+      operationId: "adminEditABeer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "Admin token"
+        required: true
+        type: "string"
+      - name: "id"
+        in: "path"
+        description: "Beer id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "body"
+        in: "body"
+        description: "Beer object"
+        required: true
+        schema:
+          $ref: "#/definitions/BeerRequest"
+      responses:
+        201:
+          description: "successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/Beer"
+        401:
+          description: "Unauthorized"
+        402:
+          description: "Validation failed"
+        404:
+          description: "Could not find Beer"
+  /admin_beer/archive/{id}:
+    put:
+      tags:
+      - "admin_beer"
+      summary: "Archive a beer"
+      description: "Archive a beer"
+      operationId: "adminArchiveABeer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Beer id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "token"
+        in: "query"
+        description: "Admin token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "boolean"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Could not find Beer"
+  /admin_beer/unarchive/{id}:
+    put:
+      tags:
+      - "admin_beer"
+      summary: "Unarchive a beer"
+      description: "Unarchive a beer"
+      operationId: "adminUnarchiveABeer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Beer id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "token"
+        in: "query"
+        description: "Admin token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "boolean"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Could not find Beer"
+
+  /admin_category:
+    get:
+      tags:
+      - "admin_category"
+      summary: "Return all beer categories"
+      description: "Return all beer categories"
+      operationId: "adminGetCategories"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "Admin token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Category"
+        401:
+          description: "Unauthorized"
+  /admin_category/create:
+    post:
+      tags:
+      - "admin_category"
+      summary: "Create new beer category"
+      description: "Create new beer category"
+      operationId: "adminCreateACategory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "Admin token"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        description: "Category object"
+        required: true
+        schema:
+          $ref: "#/definitions/CategoryRequest"
+      responses:
+        201:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/Category"
+        401:
+          description: "Unauthorized"
+        402:
+          description: "Validation failed"
+  /admin_category/{id}:
+    delete:
+      tags:
+      - "admin_category"
+      summary: "Delete a beer category"
+      description: "Delete a beer category"
+      operationId: "adminDeleteACategory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Category id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "token"
+        in: "query"
+        description: "Admin token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/Category"
+        401:
+          description: "Unauthorized"
+        402:
+          description: "Validation failed"
+
+  /customer_beer:
+    get:
+      tags:
+      - "customer_beer"
+      summary: "Return all customer beers"
+      description: "Return all customer beers"
+      operationId: "customerGetBeers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "Customer token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/CustomerBeer"
+        401:
+          description: "Unauthorized"
+  /customer_beer/consume/{beer_id}:
+    post:
+      tags:
+      - "customer_beer"
+      summary: "Consume a beer"
+      description: "Consume a beer"
+      operationId: "customerConsumeBeer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "Customer token"
+        required: true
+        type: "string"
+      - name: "beer_id"
+        in: "path"
+        description: "Beer id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        201:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            $ref: "#/definitions/Passport"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Can not find Beer"
+
+  /guest_beer:
+    get:
+      tags:
+      - "guest_beer"
+      summary: "Return all available beers"
+      description: "Return all available beers"
+      operationId: "getAvailableBeers"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Beer"
 definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password_digest:
+        type: "string"
+      role:
+        type: "integer"
+        format: "int64"
+  Account:
+    type: "object"
+    properties:
+      account:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+          email:
+            type: "string"
+          password:
+            type: "string"
+            format: "password"
+  UserWithToken:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      role:
+        type: "integer"
+        format: "int64"
+      token:
+        type: "string"
+  UserSignIn:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+        format: "password"
   Beer:
     type: "object"
     properties:
@@ -133,20 +522,23 @@ definitions:
   BeerRequest:
     type: "object"
     properties:
-      manufacturer:
-        type: "string"
-      name:
-        type: "string"
-      country:
-        type: "string"
-      price:
-        type: "number"
-        format: "float"
-      description:
-        type: "string"
-      category_id:
-        type: "integer"
-        format: "int64"
+      beer:
+        type: "object"
+        properties:
+          manufacturer:
+            type: "string"
+          name:
+            type: "string"
+          country:
+            type: "string"
+          price:
+            type: "number"
+            format: "double"
+          description:
+            type: "string"
+          category_id:
+            type: "integer"
+            format: "int64"
     xml:
       name: "BeerRequest"
   Category:
@@ -157,3 +549,25 @@ definitions:
         format: "int64"
       name:
         type: "string"
+  CategoryRequest:
+    type: "object"
+    properties:
+      category:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+
+  CustomerBeer:
+    type: "object"
+    properties:
+      passport:
+        $ref: "#/definitions/Passport"
+      available_beers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Beer"
+  Passport:
+    type: "array"
+    items:
+      $ref: "#/definitions/Beer"

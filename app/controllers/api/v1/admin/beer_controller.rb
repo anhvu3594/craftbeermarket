@@ -25,24 +25,26 @@ module API
             Beer.all
           end
 
-          desc 'Create a beer', entity: API::Entities::Beer, http_codes: [
-            { code: 201, model: API::Entities::BeerResponse },
-            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
-            { code: 422, message: 'Validation failed' }
-          ]
+          # desc 'Create a beer'
+          # , entity: API::Entities::Beer, http_codes: [
+          #   { code: 201, model: API::Entities::BeerResponse },
+          #   { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+          #   { code: 422, message: 'Validation failed' }
+          # ]
+          desc 'Create a beer'
           params do
             requires :token, type: String, desc: 'Token', documentation: {
               param_type: 'query'
             }
-            # requires :beer, type: Hash, desc: 'Beer' do
-            #   requires :category_id, type: Integer, desc: 'Category Id'
-            #   requires :manufacturer, type: String, desc: 'Manufacturer'
-            #   requires :name, type: String, desc: 'Name'
-            #   requires :country, type: String, desc: 'Country'
-            #   requires :price, type: BigDecimal, desc: 'Price'
-            #   requires :description, type: String, desc: 'Description'
-            # end
-            requires :beer, type: API::Entities::BeerRequest
+            requires :beer, type: Hash, desc: 'Beer' do
+              requires :category_id, type: Integer, desc: 'Category Id'
+              requires :manufacturer, type: String, desc: 'Manufacturer'
+              requires :name, type: String, desc: 'Name'
+              requires :country, type: String, desc: 'Country'
+              requires :price, type: BigDecimal, desc: 'Price'
+              requires :description, type: String, desc: 'Description'
+            end
+            # requires :beer, type: API::Entities::BeerRequest
           end
           post :create do
             Beer.create!(permitted_params[:beer])
@@ -70,15 +72,14 @@ module API
               param_type: 'query'
             }
             requires :id, type: Integer, desc: 'Beer Id'
-            # requires :beer, type: Hash, desc: 'Beer' do
-            #   requires :category_id, type: Integer, desc: 'Category Id'
-            #   requires :manufacturer, type: String, desc: 'Manufacturer'
-            #   requires :name, type: String, desc: 'Name'
-            #   requires :country, type: String, desc: 'Country'
-            #   requires :price, type: BigDecimal, desc: 'Price'
-            #   requires :description, type: String, desc: 'Description'
-            # end
-            requires :beer, type: API::Entities::BeerRequest
+            requires :beer, type: Hash, desc: 'Beer' do
+              requires :category_id, type: Integer, desc: 'Category Id'
+              requires :manufacturer, type: String, desc: 'Manufacturer'
+              requires :name, type: String, desc: 'Name'
+              requires :country, type: String, desc: 'Country'
+              requires :price, type: BigDecimal, desc: 'Price'
+              requires :description, type: String, desc: 'Description'
+            end
           end
           put 'edit/:id' do
             beer if beer.update!(permitted_params[:beer])
@@ -91,7 +92,9 @@ module API
             { code: 404, message: "Couldn't find Beer with 'id'=" }
           ]
           params do
-            requires :token, type: String, desc: 'Token'
+            requires :token, type: String, desc: 'Token', documentation: {
+              param_type: 'query'
+            }
             requires :id, type: Integer, desc: 'Beer Id'
           end
           put 'archive/:id' do
@@ -105,7 +108,9 @@ module API
             { code: 404, message: "Couldn't find Beer with 'id'=" }
           ]
           params do
-            requires :token, type: String, desc: 'Token'
+            requires :token, type: String, desc: 'Token', documentation: {
+              param_type: 'query'
+            }
             requires :id, type: Integer, desc: 'Beer Id'
           end
           put 'unarchive/:id' do

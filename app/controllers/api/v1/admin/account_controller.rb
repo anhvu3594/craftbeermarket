@@ -17,12 +17,11 @@ module API
             requires :token, type: String, desc: 'Token', documentation: {
               param_type: 'query'
             }
-            # requires :account, type: Hash, desc: 'New Account' do
-            #   requires :name, type: String, desc: 'Name of new account'
-            #   requires :email, type: String, desc: 'Email of new account'
-            #   requires :password, type: String, desc: 'Password of new account'
-            # end
-            requires :account, type: API::Entities::UserRequest
+            requires :account, type: Hash, desc: 'New Account' do
+              requires :name, type: String, desc: 'Name of new account'
+              requires :email, type: String, desc: 'Email of new account'
+              requires :password, type: String, desc: 'Password of new account'
+            end
           end
           post :new_admin do
             new_admin = User.create!(permitted_params[:account])
