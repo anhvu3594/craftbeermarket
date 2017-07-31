@@ -1,12 +1,11 @@
 class Category < ApplicationRecord
-
   has_many :beers
 
   validates :name, presence: true
 
-  before_destroy { throw :abort if self.hadBeer?}
+  before_destroy { throw :abort if had_beer? }
 
-  def hadBeer?
-    self.beers.first ? true : false
+  def had_beer?
+    beers.first ? true : false
   end
 end

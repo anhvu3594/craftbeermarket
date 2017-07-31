@@ -9,7 +9,7 @@ module API
           { code: 422, message: 'Validation failed' }
         ]
         params do
-          requires :account, type: Hash, desc: "New user" do
+          requires :account, type: Hash, desc: 'New user' do
             requires :name, type: String, desc: 'Name'
             requires :email, type: String, desc: 'Email address'
             requires :password, type: String, desc: 'Password'
@@ -24,10 +24,10 @@ module API
           { code: 201, model: API::Entities::UserWithToken },
           { code: 404, message: 'Wrong email or password' }
         ]
-          params do
-            requires :email, type: String, desc: 'email address'
-            requires :password, type: String, desc: 'Password'
-          end
+        params do
+          requires :email, type: String, desc: 'email address'
+          requires :password, type: String, desc: 'Password'
+        end
         post :sign_in do
           user = User.find_by(email: permitted_params[:email].downcase)
           if user && user.authenticate(permitted_params[:password])

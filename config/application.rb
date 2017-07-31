@@ -14,13 +14,13 @@ module Craftbeer2017
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-    config.time_zone = "Hanoi"
+    config.time_zone = 'Hanoi'
     config.generators do |g|
       g.test_framework :rspec,
-      view_specs: false,
-      helper_specs: false,
-      routing_specs: false,
-      request_specs: false
+                       view_specs: false,
+                       helper_specs: false,
+                       routing_specs: false,
+                       request_specs: false
     end
   end
 end
@@ -29,8 +29,8 @@ module API
   class Application < Rails::Application
     config.middleware.use Rack::Cors do
       allow do
-        origins "*"
-        resource "*", headers: :any, methods: [:get, :post, :put, :delete, :options]
+        origins '*'
+        resource '*', headers: :any, methods: %i[get post put delete options]
       end
     end
   end

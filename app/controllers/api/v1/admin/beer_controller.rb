@@ -86,7 +86,7 @@ module API
           end
 
           desc 'Archive a beer', http_codes: [
-            { code: 200, message: "Sucess" },
+            { code: 200, message: 'Sucess' },
             { code: 401, message: 'Unauthorized. Invalid or expired token.' },
             { code: 422, message: 'Validation failed' },
             { code: 404, message: "Couldn't find Beer with 'id'=" }
@@ -102,7 +102,7 @@ module API
           end
 
           desc 'Unarchive a beer', http_codes: [
-            { code: 200, message: "Success" },
+            { code: 200, message: 'Success' },
             { code: 401, message: 'Unauthorized. Invalid or expired token.' },
             { code: 422, message: 'Validation failed' },
             { code: 404, message: "Couldn't find Beer with 'id'=" }

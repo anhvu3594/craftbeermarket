@@ -1,4 +1,4 @@
-require "grape-swagger-rails"
+require 'grape-swagger-rails'
 
 module API
   module V1

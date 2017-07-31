@@ -1,5 +1,4 @@
 class Beer < ApplicationRecord
-
   scope :available, -> { where(is_archived: false) }
   scope :archived, -> { where(is_archived: true) }
 

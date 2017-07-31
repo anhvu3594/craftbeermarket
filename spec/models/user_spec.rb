@@ -50,7 +50,7 @@ RSpec.describe User, type: :model do
   #   expect(invalidUser.errors[:password]).to include("is too short (minimum is 6 characters)")
   # end
 
-  it { expect(FactoryGirl.build(:user, password: "12345")).to validate_length_of(:password).is_at_least(6) }
+  it { expect(FactoryGirl.build(:user, password: '12345')).to validate_length_of(:password).is_at_least(6) }
 
   it { expect(user).to have_secure_password }
 
@@ -62,15 +62,14 @@ RSpec.describe User, type: :model do
     it 'downcases email' do
       user.email = user.email.upcase
       user.save
-      expect(user.email).to eq (user.email.downcase)
+      expect(user.email).to eq user.email.downcase
     end
   end
 
   context 'when is created' do
     it 'creates a passport' do
-      newUser = FactoryGirl.create(:user)
-      expect(newUser.passport).to be_truthy
+      new_user = FactoryGirl.create(:user)
+      expect(new_user.passport).to be_truthy
     end
   end
-
 end

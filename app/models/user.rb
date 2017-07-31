@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
   has_many :tokens
   has_one :passport, dependent: :destroy
 
@@ -13,10 +12,9 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   before_save { self.email = email.downcase }
-  after_create { self.create_passport! }
-  
+  after_create { create_passport! }
+
   def admin?
     role == 1 ? true : false
   end
-
 end

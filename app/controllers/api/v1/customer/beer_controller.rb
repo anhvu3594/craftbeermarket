@@ -5,7 +5,6 @@ module API
         include API::V1::Defaults
 
         resource :customer_beer do
-
           helpers do
             def passport
               @current_user.passport.beers
@@ -38,7 +37,7 @@ module API
             { code: 404, message: "Couldn't find Beer with 'id'=" }
           ]
           params do
-            requires :token, type: String, desc: 'Token', documentation: { param_type: "query" }
+            requires :token, type: String, desc: 'Token', documentation: { param_type: 'query' }
             requires :beer_id, type: Integer, desc: 'Consumed beer id'
           end
           post 'consume/:beer_id' do

@@ -7,7 +7,7 @@ module API
         resource :guest_beer do
           desc 'Return a beer'
           params do
-            requires :id, type: Integer, desc: "Beer id"
+            requires :id, type: Integer, desc: 'Beer id'
           end
           get ':id' do
             Beer.find(permitted_params[:id])
