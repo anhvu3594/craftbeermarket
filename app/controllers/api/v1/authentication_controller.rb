@@ -34,7 +34,7 @@ module API
             # create token for user
             token = Token.create!(user_id: user.id)
             # return token
-            { token: token.access_token, name: user.name, email: user.email, role: user.role }
+            { token: token.access_token, name: user.name, email: user.email, role: user.role , id: user.id}
           else
             error!('Wrong email or password', 404)
           end

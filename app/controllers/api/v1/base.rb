@@ -14,6 +14,10 @@ module API
 
       # guest
       mount API::V1::Guest::BeerController
+
+      #chat
+      mount API::V1::Chat::ChatroomController
+      
     end
   end
 end
