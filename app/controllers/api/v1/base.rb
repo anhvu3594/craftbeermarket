@@ -17,7 +17,7 @@ module API
 
       #chat
       mount API::V1::Chat::ChatroomController
-      
+      mount API::V1::Chat::MessageController
     end
   end
 end

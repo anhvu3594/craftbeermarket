@@ -19,7 +19,6 @@ module API
                 participant = User.find(participant_id.to_i)
                 chatroom.users << participant
                 ActionCable.server.broadcast("chatroom_#{participant.id}", chatroom_id: chatroom.id)
-
               end
             end
             true
