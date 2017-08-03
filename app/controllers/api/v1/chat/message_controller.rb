@@ -25,6 +25,15 @@ module API
             end
             message
           end
+
+          desc 'Get messages in chat room'
+          params do
+            requires :chatroom_id, type: Integer, desc: 'Chat room Id'
+          end
+          get ':chatroom_id' do
+            chatroom = Chatroom.find(params[:chatroom_id])
+            chatroom.messages
+          end
         end
       end
     end
