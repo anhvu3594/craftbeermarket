@@ -8,7 +8,7 @@ module API
           # before do
           #   authenticate!
           # end
-          desc 'Send message'
+          desc 'Create message'
           params do
             requires :message, type: Hash, desc: 'Message' do
               requires :content, type: String, desc: 'Message content'
@@ -18,11 +18,12 @@ module API
           end
           post 'create' do
             chat_room = Chatroom.find(params[:message][:chatroom_id])
+            message = chat_room.messages.create!(params[:message])
             participants = chat_room.users
             participants.each do |participant|
-              ActionCable.server.broadcast("chat_#{participant.id}", message: params[:message][:content])
+              ActionCable.server.broadcast("chat_#{participant.id}", message: MessageSerializer.new(message))
             end
-            true
+            message
           end
         end
       end
