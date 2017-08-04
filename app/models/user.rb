@@ -3,8 +3,8 @@ class User < ApplicationRecord
   has_one :passport, dependent: :destroy
   has_and_belongs_to_many :chatrooms
   has_many :messages
-  has_many :friend_ship, class_name: 'Friend'
-  has_many :friends, through: :friend_ship
+  has_many :friendships
+  has_many :friends, through: :friendships, class_name: 'User'
 
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -19,6 +19,7 @@ class User < ApplicationRecord
   after_create { create_passport! }
 
   def admin?
-    role == 1 ? true : false
+    role == 1
   end
+
 end

@@ -67,13 +67,13 @@ ActiveRecord::Schema.define(version: 20170803100535) do
     t.index ["user_id"], name: "index_chatrooms_users_on_user_id"
   end
 
-  create_table "friends", force: :cascade do |t|
+  create_table "friendships", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "friend_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["friend_id"], name: "index_friends_on_friend_id"
-    t.index ["user_id"], name: "index_friends_on_user_id"
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -111,5 +111,5 @@ ActiveRecord::Schema.define(version: 20170803100535) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "friends", "users", column: "friend_id"
+  add_foreign_key "friendships", "users", column: "friend_id"
 end
