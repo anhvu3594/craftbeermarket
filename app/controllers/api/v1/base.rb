@@ -18,6 +18,9 @@ module API
       #chat
       mount API::V1::Chat::ChatroomController
       mount API::V1::Chat::MessageController
+
+      #friend
+      mount API::V1::Friend::FriendController
     end
   end
 end
