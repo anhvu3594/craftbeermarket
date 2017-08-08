@@ -1,0 +1,2 @@
+class BeerPassport < ApplicationRecord
+end
