@@ -20,8 +20,9 @@ module API
                 chatroom.users << participant
                 ActionCable.server.broadcast("chatroom_#{participant.id}", chatroom: ChatroomSerializer.new(chatroom))
               end
+              return true
             end
-            true
+            false
           end
 
           desc 'Show list of chat rooms'
