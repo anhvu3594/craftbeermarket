@@ -9,10 +9,12 @@ module API
             authenticate_admin!
           end
 
-          desc 'Create new admin account', entity: API::Entities::User, http_codes: [
-            { code: 201, model: API::Entities::User },
-            { code: 422, message: 'Validation failed' }
-          ]
+          # desc 'Create new admin account'
+          # , entity: API::Entities::User, http_codes: [
+          #   { code: 201, model: API::Entities::User },
+          #   { code: 422, message: 'Validation failed' }
+          # ]
+          desc 'Create new admin account'
           params do
             requires :token, type: String, desc: 'Token', documentation: {
               param_type: 'query'

@@ -15,9 +15,9 @@ module API
             @permitted_params ||= declared(params, include_missing: false)
           end
 
-          def logger
-            Rails.logger
-          end
+          # def logger
+          #   Rails.logger
+          # end
 
           def authenticate!
             error!('Unauthorized. Invalid or expired token.', 401) unless current_user

@@ -15,9 +15,10 @@ module API
             authenticate_admin!
           end
 
-          desc 'Return all beers', entity: API::Entities::Beer, is_array: true, http_codes: [
-            { code: 200, model: API::Entities::BeerResponse }
-          ]
+          # desc 'Return all beers', entity: API::Entities::Beer, is_array: true, http_codes: [
+          #   { code: 200, model: API::Entities::BeerResponse }
+          # ]
+          desc 'Return all beers'
           params do
             requires :token, type: String, desc: 'Token'
           end
@@ -50,9 +51,10 @@ module API
             Beer.create!(permitted_params[:beer])
           end
 
-          desc 'Show a beer', entity: API::Entities::Beer, http_codes: [
-            { code: 200, model: API::Entities::BeerResponse }
-          ]
+          # desc 'Show a beer', entity: API::Entities::Beer, http_codes: [
+          #   { code: 200, model: API::Entities::BeerResponse }
+          # ]
+          desc 'Show a beer'
           params do
             requires :token, type: String, desc: 'Token'
             requires :id, type: Integer, desc: 'Beer Id'
@@ -61,12 +63,13 @@ module API
             beer
           end
 
-          desc 'Edit a beer', entity: API::Entities::Beer, http_codes: [
-            { code: 200, model: API::Entities::BeerResponse },
-            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
-            { code: 422, message: 'Validation failed' },
-            { code: 404, message: "Couldn't find Beer with 'id'=" }
-          ]
+          # desc 'Edit a beer', entity: API::Entities::Beer, http_codes: [
+          #   { code: 200, model: API::Entities::BeerResponse },
+          #   { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+          #   { code: 422, message: 'Validation failed' },
+          #   { code: 404, message: "Couldn't find Beer with 'id'=" }
+          # ]
+          desc 'Edit a beer'
           params do
             requires :token, type: String, desc: 'Token', documentation: {
               param_type: 'query'
@@ -85,12 +88,13 @@ module API
             beer if beer.update!(permitted_params[:beer])
           end
 
-          desc 'Archive a beer', http_codes: [
-            { code: 200, message: 'Sucess' },
-            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
-            { code: 422, message: 'Validation failed' },
-            { code: 404, message: "Couldn't find Beer with 'id'=" }
-          ]
+          # desc 'Archive a beer', http_codes: [
+          #   { code: 200, message: 'Sucess' },
+          #   { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+          #   { code: 422, message: 'Validation failed' },
+          #   { code: 404, message: "Couldn't find Beer with 'id'=" }
+          # ]
+          desc 'Archive a beer'
           params do
             requires :token, type: String, desc: 'Token', documentation: {
               param_type: 'query'
@@ -101,12 +105,13 @@ module API
             beer.update!(is_archived: true)
           end
 
-          desc 'Unarchive a beer', http_codes: [
-            { code: 200, message: 'Success' },
-            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
-            { code: 422, message: 'Validation failed' },
-            { code: 404, message: "Couldn't find Beer with 'id'=" }
-          ]
+          # desc 'Unarchive a beer', http_codes: [
+          #   { code: 200, message: 'Success' },
+          #   { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+          #   { code: 422, message: 'Validation failed' },
+          #   { code: 404, message: "Couldn't find Beer with 'id'=" }
+          # ]
+          desc 'Unarchive a beer'
           params do
             requires :token, type: String, desc: 'Token', documentation: {
               param_type: 'query'

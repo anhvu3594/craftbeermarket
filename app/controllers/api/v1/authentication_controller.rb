@@ -4,10 +4,11 @@ module API
       include API::V1::Defaults
 
       resource :auth do
-        desc 'Creates new user then return info and token', entity: API::Entities::User, http_codes: [
-          { code: 201, model: API::Entities::User },
-          { code: 422, message: 'Validation failed' }
-        ]
+        # desc 'Creates new user then return info and token', entity: API::Entities::User, http_codes: [
+        #   { code: 201, model: API::Entities::User },
+        #   { code: 422, message: 'Validation failed' }
+        # ]
+        desc 'Creates new user then return info and token'
         params do
           requires :account, type: Hash, desc: 'New user' do
             requires :name, type: String, desc: 'Name'
@@ -20,10 +21,11 @@ module API
           User.create!(permitted_params[:account])
         end
 
-        desc 'Creates and returns access_token if valid login', entity: API::Entities::User, http_codes: [
-          { code: 201, model: API::Entities::UserWithToken },
-          { code: 404, message: 'Wrong email or password' }
-        ]
+        # desc 'Creates and returns access_token if valid login', entity: API::Entities::User, http_codes: [
+        #   { code: 201, model: API::Entities::UserWithToken },
+        #   { code: 404, message: 'Wrong email or password' }
+        # ]
+        desc 'Creates and returns access_token if valid login'
         params do
           requires :email, type: String, desc: 'email address'
           requires :password, type: String, desc: 'Password'

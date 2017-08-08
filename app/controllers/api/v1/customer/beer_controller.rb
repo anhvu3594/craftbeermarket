@@ -15,10 +15,11 @@ module API
             authenticate!
           end
 
-          desc 'Return all customer beers', entity: API::Entities::Beer, http_codes: [
-            { code: 200, model: API::Entities::CustomerBeer },
-            { code: 401, message: 'Unauthorized. Invalid or expired token.' }
-          ]
+          # desc 'Return all customer beers', entity: API::Entities::Beer, http_codes: [
+          #   { code: 200, model: API::Entities::CustomerBeer },
+          #   { code: 401, message: 'Unauthorized. Invalid or expired token.' }
+          # ]
+          desc 'Return all customer beers'
           params do
             requires :token, type: String, desc: 'Token'
           end
@@ -31,11 +32,12 @@ module API
             }
           end
 
-          desc 'Consume a beer', entity: API::Entities::Beer, is_array: true, http_codes: [
-            { code: 201, model: API::Entities::BeerResponse },
-            { code: 401, message: 'Unauthorized. Invalid or expired token.' },
-            { code: 404, message: "Couldn't find Beer with 'id'=" }
-          ]
+          # desc 'Consume a beer', entity: API::Entities::Beer, is_array: true, http_codes: [
+          #   { code: 201, model: API::Entities::BeerResponse },
+          #   { code: 401, message: 'Unauthorized. Invalid or expired token.' },
+          #   { code: 404, message: "Couldn't find Beer with 'id'=" }
+          # ]
+          desc 'Consume a beer'
           params do
             requires :token, type: String, desc: 'Token', documentation: { param_type: 'query' }
             requires :beer_id, type: Integer, desc: 'Consumed beer id'
